@@ -525,13 +525,20 @@ const releaseSchema = {
 
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+    grid-template-areas: "tracks cover";
     gap: 48px;
 
     align-items: start;
   }
 
+  .media-section-dark .media-layout {
+    grid-template-columns: minmax(320px, 380px) minmax(0, 1fr);
+    grid-template-areas: "cover tracks";
+  }
+
   .track-panel {
     min-width: 0;
+    grid-area: tracks;
   }
 
   .track-panel h2 {
@@ -629,6 +636,7 @@ const releaseSchema = {
 
   .cover-panel {
     width: 100%;
+    grid-area: cover;
   }
 
   .cover-image-container {
@@ -770,17 +778,14 @@ const releaseSchema = {
 
     .media-layout {
       grid-template-columns: 1fr;
+      grid-template-areas: "tracks" "cover";
       gap: 48px;
 
       padding: 56px 20px 72px;
     }
 
-    .cover-panel {
-      order: 2;
-    }
-
-    .track-panel {
-      order: 1;
+    .media-section-dark .media-layout {
+      grid-template-areas: "cover" "tracks";
     }
 
     .track-main {
