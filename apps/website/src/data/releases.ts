@@ -24,6 +24,14 @@ export type ReleaseCredit = {
   [key: string]: unknown;
 };
 
+export type ReleaseTrackCategory = {
+  name: string;
+  coverImage?: string;
+  theme?: 'light' | 'dark';
+  tracks?: ReleaseTrack[];
+  [key: string]: unknown;
+};
+
 export type ReleaseRecord = {
   title: string;
   slug?: string;
@@ -34,6 +42,7 @@ export type ReleaseRecord = {
   links?: ReleaseLink[];
   credits?: ReleaseCredit[];
   tracks?: ReleaseTrack[];
+  trackCategories?: ReleaseTrackCategory[];
   [key: string]: unknown;
 };
 
@@ -66,6 +75,52 @@ const normalizeLinks = (links: unknown): ReleaseLink[] => {
     });
 };
 
+const normalizeTracks = (tracks: unknown): ReleaseTrack[] => {
+  if (!Array.isArray(tracks)) {
+    return [];
+  }
+
+  return tracks
+    .filter(
+      (track): track is Record<string, unknown> =>
+        !!track && typeof track === 'object' && !Array.isArray(track),
+    )
+    .map((track) => {
+      const normalizedTrack = { ...track } as ReleaseTrack;
+      normalizedTrack.links = normalizeLinks(normalizedTrack.links);
+
+      if (Array.isArray(normalizedTrack.artists)) {
+        normalizedTrack.artists = normalizedTrack.artists
+          .filter((artist): artist is string => typeof artist === 'string')
+          .map((artist) => artist.trim());
+      }
+
+      return normalizedTrack;
+    });
+};
+
+export const getReleaseCoverImage = (
+  release: ReleaseRecord,
+  category?: ReleaseTrackCategory,
+): string => {
+  const categoryCover = category?.coverImage?.trim();
+  if (categoryCover) {
+    return categoryCover;
+  }
+
+  if (!category) {
+    const firstCategoryCover = release.trackCategories?.find(
+      (entry) => typeof entry.coverImage === 'string' && entry.coverImage.trim().length > 0,
+    )?.coverImage;
+
+    if (firstCategoryCover) {
+      return firstCategoryCover.trim();
+    }
+  }
+
+  return `/releases/${release.slug ?? slugify(release.title)}/cover.webp`;
+};
+
 export function extractReleasesFromDirectory(directoryPath = releasesDir): ReleaseRecord[] {
   try {
     const releaseDirs = readdirSync(directoryPath, { withFileTypes: true })
@@ -83,23 +138,25 @@ export function extractReleasesFromDirectory(directoryPath = releasesDir): Relea
           return null;
         }
 
-        const normalizedTracks = Array.isArray(parsed.tracks)
-          ? parsed.tracks.map((track) => {
-              if (!track || typeof track !== 'object') {
-                return track;
-              }
+        const normalizedTracks = normalizeTracks(parsed.tracks);
+        const normalizedTrackCategories = Array.isArray(parsed.trackCategories)
+          ? parsed.trackCategories
+              .filter(
+                (category): category is Record<string, unknown> & { name: string } =>
+                  !!category &&
+                  typeof category === 'object' &&
+                  !Array.isArray(category) &&
+                  typeof category.name === 'string',
+              )
+              .map((category): ReleaseTrackCategory => {
+                const { coverImage, ...categoryData } = category;
 
-              const normalizedTrack = { ...(track as Record<string, unknown>) } as ReleaseTrack;
-              normalizedTrack.links = normalizeLinks(normalizedTrack.links);
-
-              if (Array.isArray(normalizedTrack.artists)) {
-                normalizedTrack.artists = normalizedTrack.artists
-                  .filter((artist): artist is string => typeof artist === 'string')
-                  .map((artist) => artist.trim());
-              }
-
-              return normalizedTrack;
-            })
+                return {
+                  ...categoryData,
+                  ...(typeof coverImage === 'string' ? { coverImage } : {}),
+                  tracks: normalizeTracks(category.tracks),
+                };
+              })
           : [];
 
         const normalizedCredits = Array.isArray(parsed.credits)
@@ -120,6 +177,7 @@ export function extractReleasesFromDirectory(directoryPath = releasesDir): Relea
           links: normalizeLinks(parsed.links),
           credits: normalizedCredits,
           tracks: normalizedTracks,
+          trackCategories: normalizedTrackCategories,
         } as ReleaseRecord;
       })
       .filter((release): release is ReleaseRecord => release !== null)

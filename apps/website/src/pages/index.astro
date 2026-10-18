@@ -1,10 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { releases } from '../data/releases';
+import { getReleaseCoverImage, releases } from '../data/releases';
 
 const biReleases = releases.filter((r) => r.releaseTag !== 'xenodigitrecords');
 const xenoReleases = releases.filter((r) => r.releaseTag === 'xenodigitrecords');
-const primaryReleaseCover = biReleases[0] ? `/releases/${biReleases[0].slug}/cover.webp` : undefined;
+const getReleaseCards = (releaseList: typeof releases) =>
+  releaseList.flatMap((release) =>
+    release.trackCategories?.length
+      ? release.trackCategories.map((category) => ({
+          release,
+          categoryName: category.name,
+          coverImage: getReleaseCoverImage(release, category),
+        }))
+      : [{
+          release,
+          categoryName: undefined,
+          coverImage: getReleaseCoverImage(release),
+        }],
+  );
+const biReleaseCards = getReleaseCards(biReleases);
+const xenoReleaseCards = getReleaseCards(xenoReleases);
+const primaryReleaseCover = biReleaseCards[0]?.coverImage;
 const siteUrl = 'https://blissandinnocence.art';
 
 const homepageSchema = [
@@ -47,13 +63,19 @@ const homepageSchema = [
       </h1>
 
       <div class="release-grid">
-        {biReleases.map((release, index) => (
-            <a class="release-card" href={`/releases/${release.slug}`}>
+        {biReleaseCards.map((card, index) => (
+            <a
+                class="release-card"
+                href={`/releases/${card.release.slug}`}
+                aria-label={card.categoryName
+                  ? `${card.release.title} — ${card.categoryName}`
+                  : card.release.title}
+            >
               <div class="card-image-wrap">
                 <img
                     class="release-cover"
-                    src={`/releases/${release.slug}/cover.webp`}
-                    alt={`${release.title} cover artwork`}
+                    src={card.coverImage}
+                    alt={`${card.release.title}${card.categoryName ? ` ${card.categoryName}` : ''} cover artwork`}
                     width="420"
                     height="420"
                     loading={index === 0 ? 'eager' : 'lazy'}
@@ -68,7 +90,7 @@ const homepageSchema = [
     </div>
   </main>
 
-  {xenoReleases.length > 0 ? (
+  {xenoReleaseCards.length > 0 ? (
     <section class="xeno-section">
       <div class="xeno-content">
         <h2>
@@ -78,13 +100,19 @@ const homepageSchema = [
         </h2>
 
         <div class="release-grid xeno-grid">
-          {xenoReleases.map((release) => (
-              <a class="release-card" href={`/releases/${release.slug}`}>
+          {xenoReleaseCards.map((card) => (
+              <a
+                  class="release-card"
+                  href={`/releases/${card.release.slug}`}
+                  aria-label={card.categoryName
+                    ? `${card.release.title} — ${card.categoryName}`
+                    : card.release.title}
+              >
                 <div class="card-image-wrap">
                   <img
                       class="release-cover"
-                      src={`/releases/${release.slug}/cover.webp`}
-                      alt={`${release.title} cover artwork`}
+                      src={card.coverImage}
+                      alt={`${card.release.title}${card.categoryName ? ` ${card.categoryName}` : ''} cover artwork`}
                       width="420"
                       height="420"
                       loading="lazy"

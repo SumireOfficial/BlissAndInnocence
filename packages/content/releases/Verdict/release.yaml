@@ -1,0 +1,236 @@
+title: Verdict
+slug: verdict
+releaseDate: 2026-10-18
+releaseTag: blissandinnocence
+
+links:
+  - platform: bandcamp
+    url: https://blissandinnocence.bandcamp.com/album/verdict
+
+description: |
+  The 5th compilation by Bliss And Innocence.
+  For this compilation we had producers make music for either a light side or a dark side. This is the Dark side compilation "Verdict: Nox".
+  All genres and styles were allowed for this compilation, resulting in a large range of music
+  the difference for the light one is just the dark switched with light and nox being lux
+
+trackCategories:
+  - name: Lux
+    coverImage: /releases/verdict/verdict_lux_cover.png
+    tracks:
+      - title: Junk
+        duration: "3:00"
+        artists:
+          - all-she-was
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/junk
+
+      - title: on my own
+        duration: "3:00"
+        artists:
+          - racheltypex
+          - ephemeran
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/on-my-own
+
+      - title: アンホロウ (光と対立)
+        duration: "3:00"
+        artists:
+          - j[]3
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/アンホロウ-光と対立
+
+      - title: Barrabribatta (Happy Religion)
+        duration: "3:00"
+        artists:
+          - hexacore
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/barrabribatta-happy-religion
+
+      - title: Through a Pinhole
+        duration: "3:00"
+        artists:
+          - fenekhu
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/through-a-pinhole
+
+      - title: Tearing Down The Banners
+        duration: "3:00"
+        artists:
+          - king-demitri
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/tearing-down-the-banners
+
+      - title: Aster
+        duration: "3:00"
+        artists:
+          - rejd
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/aster
+
+      - title: Cybernetic Elucidation
+        duration: "3:00"
+        artists:
+          - odda-c
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/cybernetic-elucidation
+
+      - title: Radiant Path
+        duration: "3:00"
+        artists:
+          - eyhz
+          - iicaras
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/radiant-path
+
+      - title: Upload
+        duration: "3:00"
+        artists:
+          - seppel
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/upload
+
+      - title: C0MPULS10N
+        duration: "3:00"
+        artists:
+          - sumire
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/c0mpuls10n
+
+      - title: A River With Ice
+        duration: "3:00"
+        artists:
+          - wokah
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/a-river-with-ice
+
+      - title: Artemisia
+        duration: "3:00"
+        artists:
+          - bystarstruck
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/artemisia
+
+  - name: Nox
+    coverImage: /releases/verdict/verdict_nox_cover.png
+    theme: dark
+    tracks:
+      - title: The Lesser Of Two Evils
+        duration: "3:00"
+        artists:
+          - megastrike
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/the-lesser-of-two-evils
+
+      - title: glass palace
+        duration: "3:00"
+        artists:
+          - cubey
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/glass-palace
+
+      - title: アントロポファジー ~the girl from room 38~
+        duration: "3:00"
+        artists:
+          - asayami-as-black-ink
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/アントロポファジー-the-girl-from-room-38
+
+      - title: Test.screen
+        duration: "3:00"
+        artists:
+          - nimpp
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/test-screen
+
+      - title: The Demon in the Mirror
+        duration: "3:00"
+        artists:
+          - odda-c
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/the-demon-in-the-mirror
+
+      - title: קללת מוֹלֶךְ -The Curse of Molech-
+        duration: "3:00"
+        artists:
+          - asaniel
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/the-curse-of-molech
+
+      - title: Rapid Love
+        duration: "3:00"
+        artists:
+          - hexacore
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/rapid-love
+
+      - title: 永遠幻世
+        duration: "3:00"
+        artists:
+          - frateloz
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/永遠幻世
+
+      - title: Depth of Field
+        duration: "3:00"
+        artists:
+          - racheltypex
+          - iphone9giveaway
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/depth-of-field
+
+      - title: Aggagrigatta
+        duration: "3:00"
+        artists:
+          - hexacore
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/aggagrigatta
+
+      - title: With(in) You
+        duration: "3:00"
+        artists:
+          - izei
+          - xv-null
+          - ariez
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/within-you
+
+      - title: Sporadic Lights
+        duration: "3:00"
+        artists:
+          - j[]3
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/sporadic-lights
+
+      - title: Code Black feat. Mio
+        duration: "3:00"
+        artists:
+          - reisen
+          - mio
+        links:
+          - platform: bandcamp
+            url: https://blissandinnocence.bandcamp.com/track/code-black-feat-mio

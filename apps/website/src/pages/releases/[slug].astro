@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { people } from '../../data/people';
-import { releases } from '../../data/releases';
+import { getReleaseCoverImage, releases } from '../../data/releases';
 
 const slugify = (value: string) =>
 value
@@ -74,6 +74,26 @@ if (!release) {
     throw new Error(`Release not found for slug: ${slug}`);
     }
 
+const releaseCoverImage = getReleaseCoverImage(release);
+const mediaSections = release.trackCategories?.length
+  ? release.trackCategories.map((category, index) => ({
+      id: `track-category-${index}`,
+      title: category.name,
+      tracks: category.tracks ?? [],
+      coverImage: getReleaseCoverImage(release, category),
+      coverAlt: `${release.title} ${category.name} cover artwork`,
+      theme: category.theme,
+    }))
+  : release.tracks?.length
+    ? [{
+        id: 'tracks',
+        title: 'Tracks',
+        tracks: release.tracks,
+        coverImage: releaseCoverImage,
+        coverAlt: `${release.title} cover artwork`,
+      }]
+    : [];
+
 const releaseIconMap: Record<string, string> = {
   bandcamp: '/social media/bandcamp.webp',
   youtube: '/social media/youtube.svg',
@@ -98,7 +118,7 @@ const releaseSchema = {
   '@type': 'MusicAlbum',
   name: release.title,
   url: `${siteUrl}/releases/${release.slug}/`,
-  image: `${siteUrl}/releases/${release.slug}/cover.webp`,
+  image: `${siteUrl}${releaseCoverImage}`,
   datePublished: release.releaseDate,
   byArtist: {
     '@type': 'MusicGroup',
@@ -110,7 +130,7 @@ const releaseSchema = {
 <Layout
     title={`${release.title} — Bliss and Innocence`}
     description={release.description ?? `Listen to ${release.title} from Bliss and Innocence.`}
-   image={`/releases/${release.slug}/cover.webp`}
+    image={releaseCoverImage}
     url={`/releases/${release.slug}/`}
     schema={releaseSchema}
 >
@@ -199,16 +219,18 @@ const releaseSchema = {
       </div>
     </section>
 
-    <!-- Tracks + cover -->
-    {release.tracks && release.tracks.length > 0 ? (
-        <section class="media-section">
+    {mediaSections.map((section) => (
+        <section
+            class:list={['media-section', { 'media-section-dark': section.theme === 'dark' }]}
+            aria-labelledby={`${section.id}-title`}
+        >
           <div class="media-layout">
-
             <section class="track-panel">
-              <h2>Tracks</h2>
+              <h2 id={`${section.id}-title`}>{section.title}</h2>
 
-              <ul class="track-list">
-                {release.tracks.map((track) => {
+              {section.tracks.length > 0 ? (
+                <ul class="track-list">
+                {section.tracks.map((track) => {
                   const trackUrl = getTrackUrl(track);
                   const artistNames = Array.isArray(track.artists)
                       ? track.artists
@@ -270,14 +292,19 @@ const releaseSchema = {
                       </li>
                   );
                 })}
-              </ul>
+                </ul>
+              ) : null}
             </section>
 
             <div class="cover-panel">
-              <div class="cover-image-container">
+              <button
+                  type="button"
+                  class="cover-image-container"
+                  aria-label={`View ${section.title} cover art`}
+              >
                 <img
-                    src={`/releases/${release.slug}/cover.webp`}
-                    alt={`${release.title} cover artwork`}
+                    src={section.coverImage}
+                    alt={section.coverAlt}
                     class="release-cover"
                     width="auto"
                     height="auto"
@@ -285,22 +312,17 @@ const releaseSchema = {
                     decoding="async"
                 />
 
-                <div class="cover-overlay">
+                <span class="cover-overlay">
                   View cover art
-                </div>
-              </div>
+                </span>
+              </button>
             </div>
-
           </div>
         </section>
-    ) : null}
+    ))}
 
     <!-- Cover modal -->
-    <div
-        id="cover-modal"
-        class="cover-modal"
-        aria-hidden="true"
-    >
+    {mediaSections.length > 0 ? <div id="cover-modal" class="cover-modal" aria-hidden="true">
       <div
           class="cover-modal-backdrop"
           data-close-cover-modal="true"
@@ -308,8 +330,9 @@ const releaseSchema = {
 
       <div class="cover-modal-content">
         <img
-            src={`/releases/${release.slug}/cover.webp`}
-            alt={`${release.title} cover artwork preview`}
+            id="cover-modal-image"
+            src={mediaSections[0].coverImage}
+            alt={`${mediaSections[0].coverAlt} preview`}
             class="cover-modal-image"
             width="900"
             height="900"
@@ -317,7 +340,7 @@ const releaseSchema = {
             decoding="async"
         />
       </div>
-    </div>
+    </div> : null}
 
   </main>
 </Layout>
@@ -329,6 +352,8 @@ const releaseSchema = {
 
   const coverModal =
       document.getElementById('cover-modal');
+  const coverModalImage =
+      document.getElementById('cover-modal-image');
 
   const hideCoverModal = () => {
     if (!coverModal) return;
@@ -339,8 +364,11 @@ const releaseSchema = {
 
   coverContainers.forEach((container) => {
     container.addEventListener('click', () => {
-      if (!coverModal) return;
+      const coverImage = container.querySelector('img');
+      if (!coverModal || !coverModalImage || !coverImage) return;
 
+      coverModalImage.setAttribute('src', coverImage.currentSrc || coverImage.src);
+      coverModalImage.setAttribute('alt', `${coverImage.alt} preview`);
       coverModal.classList.add('is-visible');
       coverModal.setAttribute('aria-hidden', 'false');
     });
@@ -485,6 +513,11 @@ const releaseSchema = {
     width: 100%;
   }
 
+  .media-section-dark {
+    color: #ffffff;
+    background: #000000;
+  }
+
   .media-layout {
     width: min(100%, 1100px);
     margin: 0 auto;
@@ -600,9 +633,21 @@ const releaseSchema = {
 
   .cover-image-container {
     position: relative;
+    display: block;
     width: 100%;
+    padding: 0;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    text-align: inherit;
+    background: transparent;
     cursor: pointer;
     overflow: hidden;
+  }
+
+  .cover-image-container:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
   }
 
   .release-cover {
