@@ -11,6 +11,14 @@ description: |
   The 5th compilation by Bliss And Innocence.
   For this compilation we had producers make music for either a light side or a dark side. This has latter been seperated into 2 albums, Verdict: Lux for the light side and Verdict: Nox for the darkside.
 
+credits:
+  - role: Cover Art
+    name: lesyef
+  - role: Mastering
+    name: eyhz
+  - role: Cover Design
+    name: iicaras
+
 trackCategories:
   - name: Lux
     coverImage: /releases/verdict/verdict_lux_cover.png
@@ -35,7 +43,7 @@ trackCategories:
       - title: アンホロウ (光と対立)
         duration: "3:00"
         artists:
-          - j[]3
+          - j3
         links:
           - platform: bandcamp
             url: https://blissandinnocence.bandcamp.com/track/アンホロウ-光と対立
@@ -219,7 +227,7 @@ trackCategories:
       - title: Sporadic Lights
         duration: "3:00"
         artists:
-          - j[]3
+          - j3
         links:
           - platform: bandcamp
             url: https://blissandinnocence.bandcamp.com/track/sporadic-lights
@@ -227,7 +235,7 @@ trackCategories:
       - title: Code Black feat. Mio
         duration: "3:00"
         artists:
-          - reisen
+          - seppel
           - mio
         links:
           - platform: bandcamp

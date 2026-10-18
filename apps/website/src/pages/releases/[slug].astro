@@ -3,38 +3,12 @@ import Layout from '../../layouts/Layout.astro';
 import { people } from '../../data/people';
 import { getReleaseCoverImage, releases } from '../../data/releases';
 
-const slugify = (value: string) =>
-value
-.trim()
-.toLowerCase()
-.replace(/[^a-z0-9]+/g, '-')
-.replace(/^-+|-+$/g, '') || 'person';
-
-const resolvePersonByName = (name?: string) => {
-    if (!name || !name.trim()) {
-    return null;
-    }
-
-    const target = name.trim();
-
-    return people.find((person) => {
-    const normalizedPersonName = person.name.trim();
-
-    return (
-        person.slug === target ||
-            person.slug === slugify(target) ||
-            normalizedPersonName.toLowerCase() === target.toLowerCase() ||
-            slugify(normalizedPersonName) === slugify(target)
-        );
-    }) ?? null;
-    };
-
-const getPersonLink = (name?: string) => {
-    const person = resolvePersonByName(name);
-
-    if (!name || !name.trim()) {
+const getPersonLink = (slug?: string) => {
+    if (!slug || !slug.trim()) {
     return { href: null, label: 'Unknown' };
     }
+
+    const person = people.find((entry) => entry.slug === slug.trim());
 
     if (person) {
     return {
@@ -45,7 +19,7 @@ const getPersonLink = (name?: string) => {
 
     return {
     href: null,
-    label: name.trim(),
+    label: slug.trim(),
     };
     };
 

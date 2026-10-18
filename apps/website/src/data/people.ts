@@ -23,14 +23,6 @@ export type PersonRecord = {
 const projectRoot = resolve(process.cwd(), '..', '..');
 const peopleDir = join(projectRoot, 'packages', 'content', 'people');
 
-const slugify = (value: string) => {
-    return value
-      .trim()
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-};
-
 export function extractPeopleFromDirectory(directoryPath = peopleDir): PersonRecord[] {
   if (!directoryPath) {
     return [];
@@ -42,7 +34,7 @@ export function extractPeopleFromDirectory(directoryPath = peopleDir): PersonRec
       .map((entry) => entry.name)
       .sort((a, b) => a.localeCompare(b));
 
-    return files
+    const people = files
       .map((fileName) => {
         const filePath = join(directoryPath, fileName);
         const raw = readFileSync(filePath, 'utf8');
@@ -50,6 +42,10 @@ export function extractPeopleFromDirectory(directoryPath = peopleDir): PersonRec
 
         if (!parsed || typeof parsed !== 'object' || !('name' in parsed) || typeof parsed.name !== 'string') {
           return null;
+        }
+
+        if (typeof parsed.slug !== 'string' || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(parsed.slug)) {
+          throw new Error(`Person must have a valid explicit slug: ${filePath}`);
         }
 
         const rawRoles = Array.isArray(parsed.roles)
@@ -85,23 +81,27 @@ export function extractPeopleFromDirectory(directoryPath = peopleDir): PersonRec
           .filter((role): role is string => typeof role === 'string' && role.trim().length > 0)
           .map((role) => role.trim());
 
-        const fileStem = fileName.replace(/\.[^.]+$/, '');
-        const resolvedSlug =
-          typeof parsed.slug === 'string' && parsed.slug.trim().length > 0
-            ? slugify(parsed.slug)
-            : slugify(parsed.name) || slugify(fileStem) || 'person';
-
         return {
           ...parsed,
           roles,
           links: normalizedLinks,
-          slug: resolvedSlug,
+          slug: parsed.slug,
         } as PersonRecord;
       })
       .filter((person): person is PersonRecord => person !== null);
+
+    const slugs = new Set<string>();
+    for (const person of people) {
+      if (slugs.has(person.slug)) {
+        throw new Error(`Duplicate person slug: ${person.slug}`);
+      }
+      slugs.add(person.slug);
+    }
+
+    return people;
   } catch (error) {
-    console.warn('Unable to read people content directory:', directoryPath, error);
-    return [];
+    console.error('Unable to load people content directory:', directoryPath, error);
+    throw error;
   }
 }
 

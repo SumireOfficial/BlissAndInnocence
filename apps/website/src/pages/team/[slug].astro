@@ -3,7 +3,7 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import Layout from '../../layouts/Layout.astro';
 import { people } from '../../data/people';
-import { releases } from '../../data/releases';
+import { getReleaseCoverImage, releases } from '../../data/releases';
 
 export function getStaticPaths() {
   return people.map((member) => ({
@@ -18,42 +18,23 @@ if (!member) {
   throw new Error(`Member not found for slug: ${slug}`);
 }
 
-const slugify = (value: string) =>
-  value
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '') || 'person';
-
-const matchesMemberName = (name?: string) => {
-  if (!name || !name.trim()) return false;
-  const target = name.trim();
-  return (
-    member.slug === target ||
-    member.slug === slugify(target) ||
-    member.name.trim().toLowerCase() === target.toLowerCase() ||
-    slugify(member.name) === slugify(target)
-  );
-};
+const isMemberSlug = (slug?: string) => slug === member.slug;
 
 const contributedReleases = releases.filter((release) => {
-  if (Array.isArray(release.credits) && release.credits.some((c) => typeof c.name === 'string' && matchesMemberName(c.name))) {
+  if (Array.isArray(release.credits) && release.credits.some((credit) => isMemberSlug(credit.name))) {
     return true;
   }
 
-  if (Array.isArray(release.tracks)) {
-    for (const t of release.tracks) {
-      if (Array.isArray(t.artists) && t.artists.some((a) => typeof a === 'string' && matchesMemberName(a))) {
-        return true;
-      }
-    }
-  }
-
-  return false;
+  const tracks = [
+    ...(release.tracks ?? []),
+    ...(release.trackCategories ?? []).flatMap((category) => category.tracks ?? []),
+  ];
+  return tracks.some((track) => track.artists?.some(isMemberSlug));
 });
 
 const socialIconMap: Record<string, string> = {
   x: '/social media/x.svg',
+  bluesky: '/social media/portfolio.svg',
   youtube: '/social media/youtube.svg',
   soundcloud: '/social media/soundcloud.webp',
   subvert: '/social media/subvert.webp',
@@ -173,7 +154,7 @@ const personSchema = {
                       href={`/releases/${rel.slug}`}
                   >
                     <img
-                        src={`/releases/${rel.slug}/cover.webp`}
+                        src={getReleaseCoverImage(rel)}
                         alt={`${rel.title} cover`}
                         width="220"
                         height="220"
