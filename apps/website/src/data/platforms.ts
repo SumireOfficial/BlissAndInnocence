@@ -10,7 +10,8 @@ export const platformLabels = {
   github: 'GitHub',
   portfolio: 'Portfolio',
   subvert: 'Subvert',
-  instagram: 'Instagram'
+  instagram: 'Instagram',
+  bluesky: 'Bluesky',
 } as const;
 
 export type PlatformKey = keyof typeof platformLabels;
