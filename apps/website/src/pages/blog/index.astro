@@ -69,8 +69,9 @@ const years = [...new Set(entries.map((entry) => entry.year))].map((year) => ({
 
 <script>
   const list = document.querySelector<HTMLElement>('.blog-list');
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-  if (list) {
+  if (list && canHover) {
     list.classList.add('blog-reactive');
 
     const posts = list.querySelectorAll<HTMLElement>('.blog-post');
