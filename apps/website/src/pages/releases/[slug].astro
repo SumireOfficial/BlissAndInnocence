@@ -436,6 +436,7 @@ const releaseSchema = {
 
   .release-info-inner {
     width: 100%;
+    box-sizing: border-box;
     max-width: 900px;
     margin: 0 auto;
     padding: 80px 24px 84px;
@@ -494,6 +495,7 @@ const releaseSchema = {
 
   .media-layout {
     width: min(100%, 1100px);
+    box-sizing: border-box;
     margin: 0 auto;
     padding: 72px 24px 96px;
 
@@ -610,6 +612,7 @@ const releaseSchema = {
 
   .cover-panel {
     width: 100%;
+    min-width: 0;
     grid-area: cover;
   }
 
@@ -617,6 +620,7 @@ const releaseSchema = {
     position: relative;
     display: block;
     width: 100%;
+    max-width: 100%;
     padding: 0;
     border: 0;
     color: inherit;
@@ -635,6 +639,7 @@ const releaseSchema = {
   .release-cover {
     display: block;
     width: 100%;
+    max-width: 100%;
     aspect-ratio: 1;
     object-fit: cover;
     background: rgba(17, 17, 17, 0.08);
@@ -751,11 +756,16 @@ const releaseSchema = {
     }
 
     .media-layout {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       grid-template-areas: "cover" "tracks";
       gap: 48px;
 
       padding: 56px 20px 72px;
+    }
+
+    .media-section-dark .media-layout {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: "cover" "tracks";
     }
 
     .track-main {
