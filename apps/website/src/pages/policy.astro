@@ -1,0 +1,161 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const contactEmail = 'blissandinnocence@gmail.com';
+
+const sections = [
+  {
+    title: 'Free to Share',
+    body: 'We release our music for free so that it can be heard and shared. You are welcome to listen, download, and distribute our releases in their original, unmodified form, as long as you credit Bliss and Innocence and the credited artists.',
+  },
+  {
+    title: 'No AI Use',
+    body: 'Our songs, artwork, and other materials may not be used to train, fine-tune, or evaluate any AI or machine learning model, nor included in any dataset for such purposes. You may not use them to clone voices, styles, or likenesses of our artists, or to generate derivative works with AI tools.',
+  },
+  {
+    title: 'No Resale',
+    body: 'You may not sell, or otherwise charge for access to, our songs or artwork without our written permission. This includes paid downloads, physical copies, subscriptions, paywalled content, and uploading to platforms under your own name or label for profit.',
+  },
+  {
+    title: 'Attribution',
+    body: 'When you share or feature our music, for example in videos, streams, or playlists, please give clear credit to the artist and Bliss and Innocence, and link back to the original release where possible. Do not claim our work as your own.',
+  },
+  {
+    title: 'Remixes and Derivative Works',
+    body: 'Remixes, edits, samples, and other derivative works require permission from the artist before release. Non-commercial fan content is generally welcome, but please ask first.',
+  },
+  {
+    title: 'Copyright',
+    body: 'All rights to the music and artwork remain with their respective artists and creators. Releasing music for free does not transfer ownership or grant a license beyond what is described on this page.',
+  },
+  {
+    title: 'Questions and Permissions',
+    body: 'For permission requests, licensing, takedown notices, or any other inquiries, please contact us.',
+    contact: true,
+  },
+];
+---
+
+<Layout
+  title="Policy — Bliss and Innocence"
+  description="Usage policy for Bliss and Innocence music: free sharing, no AI use, and no resale without permission."
+  image="/B&I-logo.jpg"
+  url="/policy/"
+>
+  <main class="policy-page">
+    <div class="policy-content">
+
+      <h1>
+        <span class="title-decoration">//// </span>
+        Policy
+        <span class="title-decoration"> ////</span>
+      </h1>
+
+      <div class="policy-list">
+        {sections.map((section) => (
+          <section class="policy-entry">
+            <h2>{section.title}</h2>
+            <p>{section.body}</p>
+            {section.contact ? (
+              <a class="contact-link" href={`mailto:${contactEmail}`}>{contactEmail}</a>
+            ) : null}
+          </section>
+        ))}
+      </div>
+
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .policy-page {
+    width: 100%;
+    max-width: 1120px;
+    margin: 4.5rem auto;
+    padding: 64px 24px 96px;
+    box-sizing: border-box;
+  }
+
+  .policy-content {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  .policy-page h1 {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: lighter;
+  }
+
+  .policy-list {
+    width: 100%;
+    max-width: 900px;
+    margin: 120px auto 0;
+  }
+
+  .policy-entry {
+    padding: 28px 0;
+    border-top: 1px solid rgba(17, 17, 17, 0.14);
+  }
+
+  .policy-entry:last-of-type {
+    border-bottom: 1px solid rgba(17, 17, 17, 0.14);
+  }
+
+  .policy-entry h2 {
+    margin: 0 0 14px;
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    font-weight: 400;
+  }
+
+  .policy-entry p {
+    max-width: 760px;
+    margin: 0;
+    line-height: 1.8;
+    font-weight: 400;
+    opacity: 0.8;
+  }
+
+  .contact-link {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: #111111;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+    transition: opacity 0.2s ease;
+  }
+
+  .contact-link:hover {
+    opacity: 0.55;
+  }
+
+  @media (max-width: 640px) {
+    .policy-page {
+      margin: 2rem auto;
+      padding: 32px 16px 64px;
+    }
+
+    .policy-page h1 {
+      font-size: 1.25rem;
+    }
+
+    .title-decoration {
+      display: none;
+    }
+
+    .policy-list {
+      margin-top: 100px;
+    }
+
+    .policy-entry {
+      padding: 24px 0;
+    }
+  }
+</style>
