@@ -23,7 +23,7 @@ credits:
 
 trackCategories:
   - name: Lux
-    coverImage: /releases/verdict/verdict_lux_cover.png
+    coverImage: /releases/verdict/verdict_lux_cover.webp
     tracks:
       - title: Junk
         duration: "3:18"
@@ -132,7 +132,7 @@ trackCategories:
             url: https://blissandinnocence.bandcamp.com/track/artemisia
 
   - name: Nox
-    coverImage: /releases/verdict/verdict_nox_cover.png
+    coverImage: /releases/verdict/verdict_nox_cover.webp
     theme: dark
     tracks:
       - title: The Lesser Of Two Evils
