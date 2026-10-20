@@ -9,6 +9,10 @@ links:
     url: https://blissandinnocence.bandcamp.com/album/verdict-lux
   - platform: bandcamp
     url: https://blissandinnocence.bandcamp.com/album/verdict-nox
+  - platform: subvert
+    url: https://www.subvert.fm/blissandinnocence/verdict-lux
+  - platform: subvert
+    url: https://www.subvert.fm/blissandinnocence/verdict-nox
 
 description: |
   The 5th compilation by Bliss And Innocence.
