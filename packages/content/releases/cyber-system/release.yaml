@@ -11,6 +11,8 @@ links:
     url: https://www.youtube.com/watch?v=_oMmvlYprMc
   - platform: subvert
     url: https://www.subvert.fm/blissandinnocence/cyber-system
+  - platform: youtube
+    url: https://www.youtube.com/watch?v=_oMmvlYprMc
 description: |
   The First of many compilations by Bliss and Innocence.
 

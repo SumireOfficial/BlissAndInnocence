@@ -10,6 +10,8 @@ links:
     url: https://open.spotify.com/album/4h1zfsWHOdrt07sfjZYLK1?si=QkI6B1OlSPmtU9-yLmks1A
   - platform: subvert
     url: https://www.subvert.fm/blissandinnocence/wake-up
+  - platform: youtube
+    url: https://www.youtube.com/watch?v=MLCYGkEWGVk
 description: |
   A small EP to give you a taste of the future
 tracks:

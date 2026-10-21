@@ -9,6 +9,8 @@ links:
     url: https://blissandinnocence.bandcamp.com/album/system-init
   - platform: subvert
     url: https://www.subvert.fm/blissandinnocence/system-init
+  - platform: youtube
+    url: https://www.youtube.com/watch?v=pvzGEbmRdO8
 
 description: |
   The first release of B&I's Techno sublabel: Xenodigit Records
